@@ -1,0 +1,111 @@
+html {
+  font-size: 13px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.divider {
+    border-top: 1px solid #dee2e6;
+    margin: 1rem -1rem;
+    width: calc(100% + 2rem);
+}
+.custom-container{
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px 0;
+}
+
+.form-horizontal-group {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+.form-horizontal-group > div{
+    width: 100%;
+}
+
+.form-horizontal-group label {
+    margin-bottom: 0;
+}
+
+.datetime-group {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.time-select {
+    width: 130px;
+}
+
+
+/* New styles for two-column horizontal form */
+.two-col-form .row {
+    margin-bottom: 1rem;
+}
+
+.two-col-form .form-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0;
+}
+
+.two-col-form .form-label {
+    margin-bottom: 0;
+    width: 220px;
+    margin-right: 1rem;
+}
+
+.two-col-form .form-control {
+    flex: 1;
+}
+.required::after {
+    content: "*";
+    color: #dc3545;
+}
+
+/*error styles*/
+.error-message{
+    color:#dc3545;
+    font-size:0.875rem;
+    margin-top: 0.25rem;
+    display:none;
+}
+.is-invalid{
+    border-color: #dc3545 !important;
+}
+
+@media (max-width: 768px) {
+    .form-horizontal-group {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .datetime-group {
+        flex-wrap: wrap;
+    }
+
+   /* .two-col-form .form-label {
+        min-width: auto;
+        margin-right: 0;
+    }*/
+}

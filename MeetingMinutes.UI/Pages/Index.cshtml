@@ -39,13 +39,13 @@
                                 <div class="form-horizontal-group">
                                     <label for="customername" class="form-label required">Customer Name</label>
                                     <div>
-                                    <select class="form-select" id="customername">
-                                        <option selected>Choose...</option>
-                                        <option value="1">Item 1</option>
-                                        <option value="2">Item 2</option>
-                                        <option value="3">Item 3</option>
-                                    </select>
-                                    <div class="error-message" id="customername-error">This field is required.</div>
+                                        <select class="form-select" id="customername"> 
+                                            <option value="" selected>Choose a customer</option>
+                                            <option value="1">Item 1</option>
+                                            <option value="2">Item 2</option>
+                                            <option value="3">Item 3</option>
+                                        </select>
+                                        <div class="error-message" id="customername-error">This field is required.</div>
                                     </div>
                                 </div>
                             </div>
@@ -62,7 +62,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-6">
-                                <!-- Date and Time Picker Group -->   
+                                <!-- Date and Time Picker Group -->
                                 <div class="form-horizontal-group">
                                     <label class="form-label">Date</label>
                                     <div class="datetime-group">
@@ -88,7 +88,7 @@
                                             <option value="3:30 PM">3:30 PM</option>
                                         </select>
                                     </div>
-                                   
+
                                 </div>
                             </div>
 
@@ -107,12 +107,12 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-horizontal-group">
-                                    <label  for="meetingplace" class="form-label required">Meeting Place</label>
-                                     <div>
+                                    <label for="meetingplace" class="form-label required">Meeting Place</label>
+                                    <div>
                                         <input type="text" required class="form-control" id="meetingplace" placeholder="meeting place">
                                         <div class="error-message" id="meetingplace-error">This field is required.</div>
-                                     </div>
-                                    
+                                    </div>
+
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -138,7 +138,6 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                               
                             </div>
                         </div>
 
@@ -159,103 +158,10 @@
                     </div>
                 </div>
                 <div class="card-footer bg-white">
-                    <button class="btn btn-primary">Save Changes</button>
+                    <button id="saveChanges" class="btn btn-primary">Save Changes</button>
                     <button class="btn btn-outline-secondary ms-2">Cancel</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-
- @* <script>
-        $(document).ready(function() {
-            // Function to validate a field
-            function validateField(field, errorId, errorMessage) {
-                if (!field.val()) {
-                    field.addClass('is-invalid');
-                    $(errorId).text(errorMessage).show();
-                    return false;
-                } else {
-                    field.removeClass('is-invalid');
-                    $(errorId).hide();
-                    return true;
-                }
-            }
-
-            // Function to validate email format
-            function validateEmail(email) {
-                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                return re.test(email);
-            }
-
-            // Validate on Save Changes click
-            $('#saveChanges').click(function() {
-                let isValid = true;
-
-                // Validate radio buttons
-                if (!$('input[name="options"]:checked').val()) {
-                    $('#options-error').show();
-                    isValid = false;
-                } else {
-                    $('#options-error').hide();
-                }
-
-                // Validate dropdown
-                isValid = validateField($('#dropdown'), '#dropdown-error', 'Please select an item') && isValid;
-
-                // Validate username
-                isValid = validateField($('#username'), '#username-error', 'Please enter a username') && isValid;
-
-                // Validate date
-                isValid = validateField($('#datepicker'), '#date-error', 'Please select a date') && isValid;
-
-                // Validate time
-                isValid = validateField($('#timepicker'), '#time-error', 'Please select a time') && isValid;
-
-                // Validate first name
-                isValid = validateField($('#firstName'), '#firstName-error', 'Please enter your first name') && isValid;
-
-                // Validate last name
-                isValid = validateField($('#lastName'), '#lastName-error', 'Please enter your last name') && isValid;
-
-                // Validate email
-                const email = $('#email').val();
-                if (!email) {
-                    $('#email').addClass('is-invalid');
-                    $('#email-error').text('Please enter your email').show();
-                    isValid = false;
-                } else if (!validateEmail(email)) {
-                    $('#email').addClass('is-invalid');
-                    $('#email-error').text('Please enter a valid email').show();
-                    isValid = false;
-                } else {
-                    $('#email').removeClass('is-invalid');
-                    $('#email-error').hide();
-                }
-
-                if (isValid) {
-                    alert('Form submitted successfully!');
-                    // Here you would typically submit the form
-                }
-            });
-
-            // Clear validation on input
-            $('input, select').on('input change', function() {
-                const field = $(this);
-                field.removeClass('is-invalid');
-                
-                // Find the closest error message and hide it
-                if (field.attr('id') === 'email') {
-                    $('#email-error').hide();
-                } else {
-                    field.closest('.form-horizontal-group, .form-group, .datetime-group, .date-time-field').find('.error-message').hide();
-                }
-            });
-
-            // Special handling for radio buttons
-            $('input[name="options"]').change(function() {
-                $('#options-error').hide();
-            });
-        });
-    </script> *@
