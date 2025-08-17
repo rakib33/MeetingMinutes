@@ -1,0 +1,261 @@
+﻿@page
+@model IndexModel
+
+<div class="custom-container">
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-header bg-white">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="card-title mb-0">Meeting Minutes</h5>
+                        <a href="#" class="text-decoration-none">
+                            <i class="bi bi-pencil-square"></i> Edit
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <!-- Radio Buttons -->
+                    <div class="mb-3">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="options" id="Corporate" value="Corporate" checked>
+                            <label class="form-check-label" for="Corporate">Corporate</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="options" id="Individual" value="Individual">
+                            <label class="form-check-label" for="Individual">Individual</label>
+                        </div>
+                    </div>
+
+                    <!-- Full Width Divider Line -->
+                    <div class="divider"></div>
+
+                    <!-- Two Column Form with Horizontal Label-Input Alignment -->
+
+                    <div class="two-col-form">
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <!-- customer name - Dropdown -->
+                                <div class="form-horizontal-group">
+                                    <label for="customername" class="form-label required">Customer Name</label>
+                                    <div>
+                                    <select class="form-select" id="customername">
+                                        <option selected>Choose...</option>
+                                        <option value="1">Item 1</option>
+                                        <option value="2">Item 2</option>
+                                        <option value="3">Item 3</option>
+                                    </select>
+                                    <div class="error-message" id="customername-error">This field is required.</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <!-- meeting agenda - Text Input -->
+                                <div class="form-horizontal-group">
+                                    <label for="meetingagenda" class="form-label required">Meeting Agenda</label>
+                                    <div>
+                                        <textarea class="form-control" id="meetingagenda" placeholder="Meeting agenda" required></textarea>
+                                        <div class="error-message" id="meetingagenda-error">This field is required.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <!-- Date and Time Picker Group -->   
+                                <div class="form-horizontal-group">
+                                    <label class="form-label">Date</label>
+                                    <div class="datetime-group">
+                                        <!-- Date Picker (Textbox Style) -->
+                                        <input type="date" class="form-control" id="datepicker" placeholder="MM/DD/YYYY">
+                                        <label style="width:35px !important">Time</label>
+                                        <!-- Time Picker (Dropdown 12-hour format) -->
+                                        <select class="form-select time-select" id="timepicker">
+                                            <option value="">Select Time</option>
+                                            <option value="9:00 AM">9:00 AM</option>
+                                            <option value="9:30 AM">9:30 AM</option>
+                                            <option value="10:00 AM">10:00 AM</option>
+                                            <option value="10:30 AM">10:30 AM</option>
+                                            <option value="11:00 AM">11:00 AM</option>
+                                            <option value="11:30 AM">11:30 AM</option>
+                                            <option value="12:00 PM">12:00 PM</option>
+                                            <option value="12:30 PM">12:30 PM</option>
+                                            <option value="1:00 PM">1:00 PM</option>
+                                            <option value="1:30 PM">1:30 PM</option>
+                                            <option value="2:00 PM">2:00 PM</option>
+                                            <option value="2:30 PM">2:30 PM</option>
+                                            <option value="3:00 PM">3:00 PM</option>
+                                            <option value="3:30 PM">3:30 PM</option>
+                                        </select>
+                                    </div>
+                                   
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <!-- meeting agenda - Text Input -->
+                                <div class="form-horizontal-group">
+                                    <label for="meetingdiscussion" class="form-label required">Meeting Discussion</label>
+                                    <div>
+                                        <textarea class="form-control" id="meetingdiscussion" placeholder="Meeting discussion" required></textarea>
+                                        <div class="error-message" id="meetingdiscussion-error">This field is required.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-horizontal-group">
+                                    <label  for="meetingplace" class="form-label required">Meeting Place</label>
+                                     <div>
+                                        <input type="text" required class="form-control" id="meetingplace" placeholder="meeting place">
+                                        <div class="error-message" id="meetingplace-error">This field is required.</div>
+                                     </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <!-- meeting agenda - Text Input -->
+                                <div class="form-horizontal-group">
+                                    <label for="meetingdecision" class="form-label required">Meeting Decision</label>
+                                    <div>
+                                        <textarea class="form-control" id="meetingdecision" placeholder="Meeting decision" required></textarea>
+                                        <div class="error-message" id="meetingdecision-error">This field is required.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-horizontal-group">
+                                    <label for="attendclientside" class="form-label required">Attends From Client Side</label>
+                                    <div>
+                                        <input type="text" required class="form-control" id="attendclientside" placeholder="Present client side">
+                                        <div class="error-message" id="attendclientside-error">This field is required.</div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                               
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-horizontal-group">
+                                    <label for="attendhostside" class="form-label required">Attends From Host Side</label>
+                                    <div>
+                                        <input type="text" required class="form-control" id="attendhostside" placeholder="Present self side">
+                                        <div class="error-message" id="attendhostside-error">This field is required.</div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer bg-white">
+                    <button class="btn btn-primary">Save Changes</button>
+                    <button class="btn btn-outline-secondary ms-2">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+ @* <script>
+        $(document).ready(function() {
+            // Function to validate a field
+            function validateField(field, errorId, errorMessage) {
+                if (!field.val()) {
+                    field.addClass('is-invalid');
+                    $(errorId).text(errorMessage).show();
+                    return false;
+                } else {
+                    field.removeClass('is-invalid');
+                    $(errorId).hide();
+                    return true;
+                }
+            }
+
+            // Function to validate email format
+            function validateEmail(email) {
+                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return re.test(email);
+            }
+
+            // Validate on Save Changes click
+            $('#saveChanges').click(function() {
+                let isValid = true;
+
+                // Validate radio buttons
+                if (!$('input[name="options"]:checked').val()) {
+                    $('#options-error').show();
+                    isValid = false;
+                } else {
+                    $('#options-error').hide();
+                }
+
+                // Validate dropdown
+                isValid = validateField($('#dropdown'), '#dropdown-error', 'Please select an item') && isValid;
+
+                // Validate username
+                isValid = validateField($('#username'), '#username-error', 'Please enter a username') && isValid;
+
+                // Validate date
+                isValid = validateField($('#datepicker'), '#date-error', 'Please select a date') && isValid;
+
+                // Validate time
+                isValid = validateField($('#timepicker'), '#time-error', 'Please select a time') && isValid;
+
+                // Validate first name
+                isValid = validateField($('#firstName'), '#firstName-error', 'Please enter your first name') && isValid;
+
+                // Validate last name
+                isValid = validateField($('#lastName'), '#lastName-error', 'Please enter your last name') && isValid;
+
+                // Validate email
+                const email = $('#email').val();
+                if (!email) {
+                    $('#email').addClass('is-invalid');
+                    $('#email-error').text('Please enter your email').show();
+                    isValid = false;
+                } else if (!validateEmail(email)) {
+                    $('#email').addClass('is-invalid');
+                    $('#email-error').text('Please enter a valid email').show();
+                    isValid = false;
+                } else {
+                    $('#email').removeClass('is-invalid');
+                    $('#email-error').hide();
+                }
+
+                if (isValid) {
+                    alert('Form submitted successfully!');
+                    // Here you would typically submit the form
+                }
+            });
+
+            // Clear validation on input
+            $('input, select').on('input change', function() {
+                const field = $(this);
+                field.removeClass('is-invalid');
+                
+                // Find the closest error message and hide it
+                if (field.attr('id') === 'email') {
+                    $('#email-error').hide();
+                } else {
+                    field.closest('.form-horizontal-group, .form-group, .datetime-group, .date-time-field').find('.error-message').hide();
+                }
+            });
+
+            // Special handling for radio buttons
+            $('input[name="options"]').change(function() {
+                $('#options-error').hide();
+            });
+        });
+    </script> *@
