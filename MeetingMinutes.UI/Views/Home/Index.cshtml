@@ -58,10 +58,10 @@
                                         <div class="input-group">
                                             <input type="text" class="form-control timepicker" id="timeInput"
                                                    placeholder="HH:MM AM/PM" autocomplete="off">
-                                            <span class="input-group-text">
+                                           @*  <span class="input-group-text">
                                                 <i class="bi bi-clock"></i>
-                                            </span>
-                                        </div>                                   
+                                            </span> *@
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -139,19 +139,27 @@
             <div class="row">
                 <div class="form-horizontal-group col-md-8">
                     <label style="width:300px" for="interestedproduct" class="form-label">Interested Product/Service</label>
-                    <select class="form-select" id="productDropdown">
-                        <option value="" selected>select product/service interested</option>
-                    </select>
+                    <div>
+                        <select class="form-select" id="productDropdown">
+                            <option value="" selected>select product/service interested</option>
+                        </select>
+                        <div class="error-message" id="productDropdown-error"></div>
+                    </div>
                 </div>
             </div>
             <div class="row">
                 <div class="form-horizontal-group col-md-8">
                     <label style="width:300px" class="form-label">Quantity</label>
-                    <div class="datetime-group">
+                    <div class="form-horizontal-group">
                         <!-- Date Picker (Textbox Style) -->
-                        <input type="number" class="form-control" id="quantity">
-                        <label style="width:35px !important">Unit</label>
-                        <input type="text" class="form-control" id="unitInput" readonly>
+                        <div>
+                            <input type="number" class="form-control" id="quantity">
+                            <div class="error-message" id="quantity-error"></div>
+                        </div>
+                        <div class=" form-horizontal-group">
+                            <label style="width:35px !important">Unit</label>
+                            <input type="text" class="form-control" id="unitInput" readonly>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -176,7 +184,12 @@
                         <th style="width:9%">Delete</th>
                     </tr>
                 </thead>
-                <tbody></tbody>
+                <tbody>
+                    <tr>
+                        <td colspan="7" style="text-align:center">No matching record found</td>
+                    </tr>
+
+                </tbody>
             </table>
         </div>
     </div>

@@ -1,11 +1,20 @@
 ﻿$(document).ready(function () {
+
+    let customers = [];
+    // Track touched fields
+    const touchedFields = new Set();
+    /* product add to table and save*/
+    let products = [];
+    let editIndex = -1;
+
+
     $('#timeInput').timepicker({
         timeFormat: 'h:mm p', // 12-hour format with AM/PM
         interval: 10,         // 15 minute increments
         //minTime: '6:00am',    // Earliest time
         //maxTime: '11:30pm',   // Latest time
         //defaultTime: 'now',   // Default to current time
-        //startTime: '6:00am',  // First time in dropdown
+        startTime: '6:00am',  // First time in dropdown
         dynamic: false,       // Don't scroll to current time
         dropdown: true,       // Show dropdown
         scrollbar: true,      // Show scrollbar
@@ -18,10 +27,7 @@
     $('.input-group-text').click(function () {
         $('#timeInput').timepicker('show');
     });
-});
 
-$(document).ready(function () {
-    let customers = [];
     // Check initial selection
     var initialSelection = $('input[name="options"]:checked').val();
     updateSelectionDisplay(initialSelection);
@@ -60,13 +66,6 @@ $(document).ready(function () {
         }
     }
 
-});
-
-$(document).ready(function () {
-
-    // Track touched fields
-    const touchedFields = new Set();
-
     // Function to validate a field
     function validateField(field, errorId, errorMessage) {
         if (!field.val() || (field.is('select') && field.val() === "")) {
@@ -84,57 +83,14 @@ $(document).ready(function () {
     $('input, select, textarea').on('focus change', function () {
         const field = $(this);
         const fieldId = field.attr('id');
-        /*     if (fieldId !== "timepicker")*/
         touchedFields.add(fieldId);
-
         // For dropdowns, validate immediately on change
         if (field.is('select') && $(this).val() === "") {
             const errorId = '#' + fieldId + '-error';
             validateField(field, errorId, $(errorId).text());
         }
     });
-
-    // Validate on Save Changes click
-    $('#saveChanges').click(function () {
-
-        if (IsFormValid) {
-
-        }
-
-        SaveProduct();
-    });
-
-    function IsFormValid() {
-
-        let isValid = true;
-
-        // Validate meetingagenda
-        isValid = validateField($('#customername'), '#customername-error', 'Please select a customer') && isValid;
-        // Validate meetingagenda
-        isValid = validateField($('#meetingagenda'), '#meetingagenda-error', 'Please enter a meeting agenda') && isValid;
-
-        // Validate meetingdiscussion
-        isValid = validateField($('#meetingdiscussion'), '#meetingdiscussion-error', 'Please select a meeting discussion') && isValid;
-
-        // Validate time
-        isValid = validateField($('#attendclientside'), '#attendclientside-error', 'Please select a time') && isValid;
-        isValid = validateField($('#attendhostside'), '#attendhostside-error', 'Please select a time') && isValid;
-
-        // Validate first name
-        isValid = validateField($('#meetingplace'), '#meetingplace-error', 'Please enter your first name') && isValid;
-
-        // Validate last name
-        isValid = validateField($('#meetingdecision'), '#meetingdecision-error', 'Please enter your last name') && isValid;
-
-
-        if (isValid) {
-            //alert('Form submitted successfully!');
-            // Here you would typically submit the form
-        }
-        return isValid;
-    }
-
-
+        
     // Clear validation when user starts typing/selecting
     $('input, select, textarea').on('input change', function () {
         const field = $(this);
@@ -150,11 +106,7 @@ $(document).ready(function () {
             }
         }
     });
-   
-    /*    product add to table and save*/
-    let products = [];
-    let editIndex = -1;
-
+ 
     // Load products dropdown
     $.get("/Product/GetProducts", function (data) {
         $.each(data, function (i, product) {
@@ -185,20 +137,15 @@ $(document).ready(function () {
         const unit = $("#unitInput").val();
         const quantity = $("#quantity").val();
 
-        //for new fresh data
-        if (!productId) {
-            alert("Please select a product.");
-            return;
-        }
-        if (quantity < 1) {
-            alert("Please select a quantity.");
-            return;
-        }
-        if (unit < 0) {
-            alert("unit should have a value.");
-            return;
-        }
-        //first check if data is for edited 
+        let isValid = true;
+
+        // Validate meetingagenda
+        isValid = validateField($('#productDropdown'), '#productDropdown-error', 'Please select a product') && isValid;
+        isValid = validateField($('#quantity'), '#quantity-error', 'Please enter quantity') && isValid;
+
+        if (!isValid)
+            return isValid;
+
         if (editIndex >= 0) {
 
             products[editIndex] = {
@@ -232,14 +179,9 @@ $(document).ready(function () {
     $(document).on("click", ".edit-btn", function () {
         editIndex = $(this).data("index");
         const product = products[editIndex];
-
         $("#productDropdown").val(product.id);
         $("#unitInput").val(product.unit);
         $("#quantity").val(product.quantity);
-
-        $("#addBtn").hide();
-        $("#updateBtn").show();
-        $("#cancelBtn").show();
     });
 
     // Update button click
@@ -276,27 +218,7 @@ $(document).ready(function () {
         }
     });
 
-    // Save button click
-    function SaveProduct(){
-        if (products.length === 0) {
-            alert("No products to save");
-            return;
-        }
-
-        $.ajax({
-            url: "/Product/SaveProducts",
-            type: "POST",
-            contentType: "application/json",
-            data: JSON.stringify(products),
-            success: function (response) {
-                alert(response.message);
-            },
-            error: function () {
-                alert("Error saving products");
-            }
-        });
-    };
-
+   
     // Helper functions
     function refreshTable() {
         const tableBody = $("#productTable tbody");
@@ -334,8 +256,109 @@ $(document).ready(function () {
     function cancelEdit() {
         editIndex = -1;
         $("#addBtn").show();
-        $("#updateBtn").hide();
-        $("#cancelBtn").hide();
     }
+
+    function IsFormValid() {
+
+        let isValid = true;
+
+        // Validate meeting agenda
+        isValid = validateField($('#customername'), '#customername-error', 'Please select a customer') && isValid;
+
+        // Validate meeting agenda
+        isValid = validateField($('#meetingagenda'), '#meetingagenda-error', 'Please enter a meeting agenda') && isValid;
+
+        // Validate meeting discussion
+        isValid = validateField($('#meetingdiscussion'), '#meetingdiscussion-error', 'Please select a meeting discussion') && isValid;
+
+        // Validate attend clientside
+        isValid = validateField($('#attendclientside'), '#attendclientside-error', 'Please select a time') && isValid;
+
+        // Validate attend hostside
+        isValid = validateField($('#attendhostside'), '#attendhostside-error', 'Please select a time') && isValid;
+
+        // Validate meeting place
+        isValid = validateField($('#meetingplace'), '#meetingplace-error', 'Please enter your first name') && isValid;
+
+        // Validate meeting decision
+        isValid = validateField($('#meetingdecision'), '#meetingdecision-error', 'Please enter your last name') && isValid;
+
+        return isValid;
+    }
+
+    // Save button click
+    async function SaveProduct() {
+        if (products.length === 0) {
+            alert("No products to save");
+            return;
+        }
+
+        return $.ajax({
+            url: "/Product/SaveProducts",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(products),
+            //success: function (response) {
+            //    alert(response.message);
+            //},
+            //error: function () {
+            //    alert("Error saving products");
+            //}
+        });
+    };
+    async function SaveMeeting() {
+        // Collect form data
+        const meetingData = {
+            customerId: $("#customername").val(),
+            meetingDate: $("#datepicker").val(),
+            meetingTime: $("#timeInput").val(),
+            meetingAgenda: $("#meetingagenda").val(),
+            meetingDiscussion: $("#meetingdiscussion").val(),
+            attendClientSide: $("#attendclientside").val(),
+            attendHostSide: $("#attendhostside").val(),
+            meetingPlace: $("#meetingplace").val(),
+            meetingDecision: $("#meetingdecision").val()
+        };
+        console.log(JSON.stringify(meetingData));
+        // Send data to server
+        return $.ajax({
+            url: "/Meeting/SaveMeeting",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(meetingData)            
+        });
+    }
+
+    // Validate on Save Changes click
+    $('#saveChanges').click(function ()
+    {
+        (async () => {
+
+        if (!IsFormValid()) {
+            return false;
+        }
+        const $btn = $(this).prop('disabled', true);
+        $('#loadingIndicator').show();
+
+        // Show loading indicator
+        $('#loadingIndicator').show();
+
+        try {
+            // 1. First save meeting
+            const meetingResponse = await SaveMeeting();
+            console.log(meetingResponse);
+            // 2. Only if meeting saved successfully, save product
+            const productResponse = await SaveProduct();
+            console.log(productResponse);
+            alert('Data saved successfully!');
+        } catch (error) {
+            alert('Error saving data: ' + (error.responseJSON?.message || error.statusText));
+        } finally {
+            $btn.prop('disabled', false);
+            $('#loadingIndicator').hide();
+        }
+      })(); // Immediately invoke the async function
+    });
+      
 
 });
