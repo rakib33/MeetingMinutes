@@ -350,15 +350,41 @@
             // 2. Only if meeting saved successfully, save product
             const productResponse = await SaveProduct();
             console.log(productResponse);
-            alert('Data saved successfully!');
+            showSuccessAlert('Data saved successfully!');
         } catch (error) {
-            alert('Error saving data: ' + (error.responseJSON?.message || error.statusText));
+            showErrorAlert('Saved failed');
+            console.log('Error saving data: ' + (error.responseJSON?.message || error.statusText));
         } finally {
             $btn.prop('disabled', false);
             $('#loadingIndicator').hide();
         }
       })(); // Immediately invoke the async function
     });
-      
 
+    /**
+     toast notification for success and error messages
+     */
+    function showSuccessAlert(message) {
+        const toast = new bootstrap.Toast(document.getElementById('successToast'));
+        $('#toastMessage').text(message);
+        $('#successToast')
+            .removeClass('bg-danger')
+            .addClass('bg-success')
+            .find('.bi')
+            .removeClass('bi-exclamation-triangle-fill')
+            .addClass('bi-check-circle-fill');
+        toast.show();
+    }
+
+    function showErrorAlert(message) {
+        const toast = new bootstrap.Toast(document.getElementById('successToast'));
+        $('#toastMessage').text(message);
+        $('#successToast')
+            .removeClass('bg-success')
+            .addClass('bg-danger')
+            .find('.bi')
+            .removeClass('bi-check-circle-fill')
+            .addClass('bi-exclamation-triangle-fill');
+        toast.show();
+    }
 });
