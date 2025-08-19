@@ -53,15 +53,14 @@
                                     <div class="datetime-group">
                                         <!-- Date Picker (Textbox Style) -->
                                         <input type="date" class="form-control" id="datepicker" placeholder="MM/DD/YYYY">
-                                        <label style="width:35px !important">Time</label>
-
-                                        <div class="input-group">
+                                       @*  <div class="form-horizontal-group"> *@
+                                            <label style="width:35px !important">Time</label>
                                             <input type="text" class="form-control timepicker" id="timeInput"
                                                    placeholder="HH:MM AM/PM" autocomplete="off">
                                            @*  <span class="input-group-text">
                                                 <i class="bi bi-clock"></i>
                                             </span> *@
-                                        </div>
+                                      @*   </div> *@
                                     </div>
                                 </div>
                             </div>
@@ -164,7 +163,7 @@
                 </div>
             </div>
 
-            <button class="btn btn-secondary mt-3" id="addProductService">
+            <button class="btn btn-sm btn-secondary" style="width:80px" id="addProduct">
                 <i class="bi bi-plus-circle"></i> Add
             </button>
         </div>
@@ -194,8 +193,8 @@
         </div>
     </div>
 
-    <div class="card-footer bg-white">
-        <button id="saveChanges" class="btn btn-secondary"> <i class="bi bi-save"></i> Save</button>
-        <button class="btn btn-outline-secondary ms-2"> <i class="bi bi-arrow-clockwise"></i> Refresh</button>
+    <div class="card-footer" style="padding-left:0px">
+        <button id="saveChanges" class="btn btn-secondary btn-sm" style="width:80px"> <i class="bi bi-save"></i> Save</button>
+        <button class="btn btn-outline-secondary ms-2 btn-sm" style="width:80px"> <i class="bi bi-arrow-clockwise"></i> Refresh</button>
     </div>
 </div>

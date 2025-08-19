@@ -11,9 +11,9 @@ namespace MeetingMinutes.UI.Controllers
         {
             var customers = new List<Customer>
             {
-                new Customer { Id = 1, Name = "A"},
-                new Customer { Id = 2, Name = "B"},
-                new Customer { Id = 3, Name = "C"},
+                new Customer { Id = 1, Name = "Rubel"},
+                new Customer { Id = 2, Name = "Fahim"},
+                new Customer { Id = 3, Name = "Imtiaz"},
            
             };
             return Json(customers);
@@ -24,9 +24,9 @@ namespace MeetingMinutes.UI.Controllers
         {
             var customers = new List<Customer>
             {
-                new Customer { Id = 1, Name = "D"},
-                new Customer { Id = 2, Name = "E"},
-                new Customer { Id = 3, Name = "F"},
+                new Customer { Id = 1, Name = "Sojib"},
+                new Customer { Id = 2, Name = "Rayhan"},
+                new Customer { Id = 3, Name = "Manik"},
 
             };
             return Json(customers);

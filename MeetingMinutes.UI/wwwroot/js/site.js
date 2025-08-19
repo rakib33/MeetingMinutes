@@ -90,7 +90,7 @@
             validateField(field, errorId, $(errorId).text());
         }
     });
-        
+
     // Clear validation when user starts typing/selecting
     $('input, select, textarea').on('input change', function () {
         const field = $(this);
@@ -106,7 +106,7 @@
             }
         }
     });
- 
+
     // Load products dropdown
     $.get("/Product/GetProducts", function (data) {
         $.each(data, function (i, product) {
@@ -130,7 +130,7 @@
     });
 
     // Add button click for new record or edit exisiting record
-    $("#addProductService").click(function () {
+    $("#addProduct").click(function () {
 
         const productId = $("#productDropdown").val();
         const productName = $("#productDropdown option:selected").text();
@@ -156,13 +156,12 @@
             };
 
             refreshTable();
-            clearForm();
+            clearProductForm();
             cancelEdit();
         }
 
-        else
-        {
-          //for new record
+        else {
+            //for new record
             products.push({
                 id: productId,
                 name: productName,
@@ -171,7 +170,7 @@
             });
 
             refreshTable();
-            clearForm();
+            clearProductForm();
         }
     });
 
@@ -184,41 +183,67 @@
         $("#quantity").val(product.quantity);
     });
 
-    // Update button click
-    $("#updateBtn").click(function () {
-        if (editIndex >= 0) {
-            const productId = $("#productDropdown").val();
-            const productName = $("#productDropdown option:selected").text();
-            const unit = $("#unitInput").val();
+    //// Update button click
+    //$("#updateBtn").click(function () {
+    //    if (editIndex >= 0) {
+    //        const productId = $("#productDropdown").val();
+    //        const productName = $("#productDropdown option:selected").text();
+    //        const unit = $("#unitInput").val();
 
-            products[editIndex] = {
-                id: productId,
-                name: productName,
-                unit: unit
-            };
+    //        products[editIndex] = {
+    //            id: productId,
+    //            name: productName,
+    //            unit: unit
+    //        };
 
-            refreshTable();
-            clearForm();
-            cancelEdit();
-        }
-    });
+    //        refreshTable();
+    //        clearProductForm();
+    //        cancelEdit();
+    //    }
+    //});
 
     // Cancel button click
-    $("#cancelBtn").click(function () {
-        cancelEdit();
-        clearForm();
-    });
+    //$("#cancelBtn").click(function () {
+    //    cancelEdit();
+    //    clearProductForm();
+    //});
 
     // Delete button in table
     $(document).on("click", ".delete-btn", function () {
-        if (confirm("Are you sure you want to delete this product?")) {
-            const index = $(this).data("index");
-            products.splice(index, 1);
-            refreshTable();
-        }
+      
+        const $button = $(this);
+        const index = $button.data("index");
+        const productName = $button.closest('tr').find('td:eq(2)').text(); // Get product name from table
+
+        const modal = new bootstrap.Modal(document.getElementById('deleteConfirmModal'));
+
+        // Update modal content dynamically
+        $('#deleteConfirmModal .modal-body').html(`
+        <p>Are you sure you want to delete:<strong>${productName}</strong>?</p>       
+        <p class="text-danger">This action cannot be undone!</p>
+    `);
+
+        // Store data on confirm button
+        $('#confirmDeleteBtn')
+            .data('index', index)
+            .off('click') // Remove previous handlers
+            .click(function () {
+                products.splice(index, 1);
+                refreshTable();
+                showSuccessAlert('Product deleted successfully');
+                modal.hide();
+            });
+
+        modal.show();
+
+        //if (confirm("Are you sure you want to delete this product?")) {
+        //    const index = $(this).data("index");
+        //    products.splice(index, 1);
+        //    refreshTable();
+        //}
     });
 
-   
+
     // Helper functions
     function refreshTable() {
         const tableBody = $("#productTable tbody");
@@ -247,7 +272,7 @@
         });
     }
 
-    function clearForm() {
+    function clearProductForm() {
         $("#productDropdown").val("");
         $("#unitInput").val("");
         $("#quantity").val("");
@@ -266,44 +291,39 @@
         isValid = validateField($('#customername'), '#customername-error', 'Please select a customer') && isValid;
 
         // Validate meeting agenda
-        isValid = validateField($('#meetingagenda'), '#meetingagenda-error', 'Please enter a meeting agenda') && isValid;
+        isValid = validateField($('#meetingagenda'), '#meetingagenda-error', 'Please enter meeting agenda') && isValid;
 
         // Validate meeting discussion
-        isValid = validateField($('#meetingdiscussion'), '#meetingdiscussion-error', 'Please select a meeting discussion') && isValid;
+        isValid = validateField($('#meetingdiscussion'), '#meetingdiscussion-error', 'Please enter meeting discussion') && isValid;
 
         // Validate attend clientside
-        isValid = validateField($('#attendclientside'), '#attendclientside-error', 'Please select a time') && isValid;
+        isValid = validateField($('#attendclientside'), '#attendclientside-error', 'Please enter present client side') && isValid;
 
         // Validate attend hostside
-        isValid = validateField($('#attendhostside'), '#attendhostside-error', 'Please select a time') && isValid;
+        isValid = validateField($('#attendhostside'), '#attendhostside-error', 'Please enter present self side') && isValid;
 
         // Validate meeting place
-        isValid = validateField($('#meetingplace'), '#meetingplace-error', 'Please enter your first name') && isValid;
+        isValid = validateField($('#meetingplace'), '#meetingplace-error', 'Please enter meeting place') && isValid;
 
         // Validate meeting decision
-        isValid = validateField($('#meetingdecision'), '#meetingdecision-error', 'Please enter your last name') && isValid;
+        isValid = validateField($('#meetingdecision'), '#meetingdecision-error', 'Please enter meeting decision') && isValid;
 
         return isValid;
     }
 
-    // Save button click
+    /**
+     * Save button click
+     * @returns
+     */
     async function SaveProduct() {
         if (products.length === 0) {
-            alert("No products to save");
             return;
         }
-
         return $.ajax({
             url: "/Product/SaveProducts",
             type: "POST",
             contentType: "application/json",
             data: JSON.stringify(products),
-            //success: function (response) {
-            //    alert(response.message);
-            //},
-            //error: function () {
-            //    alert("Error saving products");
-            //}
         });
     };
     async function SaveMeeting() {
@@ -325,42 +345,60 @@
             url: "/Meeting/SaveMeeting",
             type: "POST",
             contentType: "application/json",
-            data: JSON.stringify(meetingData)            
+            data: JSON.stringify(meetingData)
         });
     }
 
     // Validate on Save Changes click
-    $('#saveChanges').click(function ()
-    {
+    $('#saveChanges').click(function () {
         (async () => {
 
-        if (!IsFormValid()) {
-            return false;
-        }
-        const $btn = $(this).prop('disabled', true);
-        $('#loadingIndicator').show();
+            if (!IsFormValid()) {
+                return false;
+            }
+            const $btn = $(this).prop('disabled', true);
+            // Show loading indicator
+            $('#loadingIndicator').show();
 
-        // Show loading indicator
-        $('#loadingIndicator').show();
-
-        try {
-            // 1. First save meeting
-            const meetingResponse = await SaveMeeting();
-            console.log(meetingResponse);
-            // 2. Only if meeting saved successfully, save product
-            const productResponse = await SaveProduct();
-            console.log(productResponse);
-            showSuccessAlert('Data saved successfully!');
-        } catch (error) {
-            showErrorAlert('Saved failed');
-            console.log('Error saving data: ' + (error.responseJSON?.message || error.statusText));
-        } finally {
-            $btn.prop('disabled', false);
-            $('#loadingIndicator').hide();
-        }
-      })(); // Immediately invoke the async function
+            try {
+                // 1. First save meeting
+                const meetingResponse = await SaveMeeting();
+                console.log(meetingResponse);
+                // 2. Only if meeting saved successfully, save product
+                const productResponse = await SaveProduct();
+                console.log(productResponse);
+                showSuccessAlert('Data saved successfully!');
+                clearForm();
+            } catch (error) {
+                showErrorAlert('Saved failed');
+                console.log('Error saving data: ' + (error.responseJSON?.message || error.statusText));
+            } finally {
+                $btn.prop('disabled', false);
+                $('#loadingIndicator').hide();
+            }
+        })(); // Immediately invoke the async function
     });
 
+    function clearForm() {
+
+        $("#customername").val("");
+        $("#datepicker").val("");
+        $("#timeInput").val("");
+        $("#meetingplace").val("");
+        $("#attendclientside").val("");
+        $("#attendhostside").val("");
+        $("#meetingagenda").val("");
+        $("#meetingdiscussion").val("");
+        $("#meetingdecision").val("");
+
+        ClearTable();
+        clearProductForm();
+    }
+    function ClearTable() {
+        const tableBody = $("#productTable tbody");
+        tableBody.empty();
+    };
+   
     /**
      toast notification for success and error messages
      */
