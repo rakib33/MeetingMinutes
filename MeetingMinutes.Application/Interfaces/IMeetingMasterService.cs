@@ -9,6 +9,6 @@ namespace MeetingMinutes.Application.Interfaces
 {
     public interface IMeetingMasterService
     {
-        Task<bool> SaveMeetingMasterAsync(MeetingDto meetingDto);
+        Task<int> SaveMeetingMasterAsync(MeetingDto meetingDto);
     }
 }

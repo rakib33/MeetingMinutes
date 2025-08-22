@@ -18,7 +18,7 @@ namespace MeetingMinutes.Infrastructure.Repositories
 
         public MeetingRepository(ApplicationDbContext db) => _db = db;
 
-        public async Task<bool> SaveMeetingWithSPAsync(MeetingMinutesMaster meetingsData)
+        public async Task<int> SaveMeetingWithSPAsync(MeetingMinutesMaster meetingsData)
         {
             try
             {
@@ -53,16 +53,16 @@ namespace MeetingMinutes.Infrastructure.Repositories
                 var result = await command.ExecuteScalarAsync();
 
                 if (result == null && result == DBNull.Value)
-                    return false;
+                    return -1;
                 
-               return Convert.ToInt32(result) > 0 ? true: false;
+               return Convert.ToInt32(result);
         
             }
             catch (Exception ex)
             {
                 // Log the exception or handle it as needed
                 Console.WriteLine($"Error saving meeting: {ex.Message}");
-                return false;
+                return -1;
             }
         }
     }

@@ -20,7 +20,7 @@ namespace MeetingMinutes.Application.Services
             _meetingRepository = meetingRepository;
             _mapper = mapper;
         }
-        public async Task<bool> SaveMeetingMasterAsync(MeetingDto meetingDto)
+        public async Task<int> SaveMeetingMasterAsync(MeetingDto meetingDto)
         {
             //Parse the date and time(if you need them combined)
             DateTime meetingDateTime;

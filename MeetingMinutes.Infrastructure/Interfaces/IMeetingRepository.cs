@@ -9,6 +9,6 @@ namespace MeetingMinutes.Infrastructure.Interfaces
 {
     public interface IMeetingRepository
     {
-      Task<bool> SaveMeetingWithSPAsync(MeetingMinutesMaster meetingDto);
+      Task<int> SaveMeetingWithSPAsync(MeetingMinutesMaster meetingDto);
     }
 }

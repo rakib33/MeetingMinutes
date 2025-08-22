@@ -7,7 +7,7 @@
     let products = [];
     let editIndex = -1;
     let customerType = "Individual"; // Default customer type
-
+ 
     $('#timeInput').timepicker({
         timeFormat: 'h:mm p', // 12-hour format with AM/PM
         interval: 10,         // 15 minute increments
@@ -28,6 +28,20 @@
         $('#timeInput').timepicker('show');
     });
 
+    $('#quantity').on('input', function () {
+        let value = parseFloat($(this).val());
+
+        // Clear if value is 0, negative, or NaN
+        if (isNaN(value) || value <= 0) {
+            $(this).val('');
+        }
+    }).on('keydown', function (e) {
+        // Prevent minus sign and exponential notation
+        if (e.key === '-' || e.key === 'e' || e.key === 'E') {
+            e.preventDefault();
+            return false;
+        }
+    });
     // Check initial selection
     customerType = $('input[name="options"]:checked').val();
     updateSelectionDisplay(customerType);
@@ -154,10 +168,10 @@
         if (editIndex >= 0) {
 
             products[editIndex] = {
-                id: productId,
+                productId: productId,
                 name: productName,
                 quantity: quantity,
-                unit: unit
+                unit: unit                
             };
 
             refreshTable();
@@ -168,10 +182,10 @@
         else {
             //for new record
             products.push({
-                id: productId,
+                productId: productId,
                 name: productName,
                 quantity: quantity,
-                unit: unit
+                unit: unit   
             });
 
             refreshTable();
@@ -183,35 +197,10 @@
     $(document).on("click", ".edit-btn", function () {
         editIndex = $(this).data("index");
         const product = products[editIndex];
-        $("#productDropdown").val(product.id);
+        $("#productDropdown").val(product.productId);
         $("#unitInput").val(product.unit);
         $("#quantity").val(product.quantity);
     });
-
-    //// Update button click
-    //$("#updateBtn").click(function () {
-    //    if (editIndex >= 0) {
-    //        const productId = $("#productDropdown").val();
-    //        const productName = $("#productDropdown option:selected").text();
-    //        const unit = $("#unitInput").val();
-
-    //        products[editIndex] = {
-    //            id: productId,
-    //            name: productName,
-    //            unit: unit
-    //        };
-
-    //        refreshTable();
-    //        clearProductForm();
-    //        cancelEdit();
-    //    }
-    //});
-
-    // Cancel button click
-    //$("#cancelBtn").click(function () {
-    //    cancelEdit();
-    //    clearProductForm();
-    //});
 
     // Delete button in table
     $(document).on("click", ".delete-btn", function () {
@@ -238,16 +227,8 @@
                 showSuccessAlert('Product deleted successfully');
                 modal.hide();
             });
-
         modal.show();
-
-        //if (confirm("Are you sure you want to delete this product?")) {
-        //    const index = $(this).data("index");
-        //    products.splice(index, 1);
-        //    refreshTable();
-        //}
     });
-
 
     // Helper functions
     function refreshTable() {
@@ -258,7 +239,7 @@
             tableBody.append(
                 `<tr>
                             <td>${index + 1}</td>
-                            <td style="display:none">${product.id}</td>
+                            <td style="display:none">${product.productId}</td>
                             <td>${product.name}</td>
                             <td>${product.quantity}</td>
                             <td>${product.unit}</td>
@@ -276,18 +257,15 @@
             );
         });
     }
-
     function clearProductForm() {
         $("#productDropdown").val("");
         $("#unitInput").val("");
         $("#quantity").val("");
     }
-
     function cancelEdit() {
         editIndex = -1;
         $("#addBtn").show();
     }
-
     function IsFormValid() {
 
         let isValid = true;
@@ -368,11 +346,18 @@
 
             try {
                 // 1. First save meeting
+                masterId = -1;
                 const meetingResponse = await SaveMeeting();
                 console.log(meetingResponse);
                 if (meetingResponse.success === false) {
                     showErrorAlert(meetingResponse.message);
                     return;
+                } else {
+                    //add new property with value of meeting id to products array
+                    console.log('Meeting saved successfully with ID: ' + meetingResponse.id);
+                    products.forEach(product => {
+                        product.meetingMinutesMasterId = meetingResponse.id;                        
+                    });   
                 }
                 // 2. Only if meeting saved successfully, save product
                 const productResponse = await SaveProduct();
@@ -389,6 +374,9 @@
         })(); // Immediately invoke the async function
     });
 
+    $('#refresh-btn').click(function () {
+        clearForm();
+    });
     function clearForm() {
 
         $("#customername").val("");

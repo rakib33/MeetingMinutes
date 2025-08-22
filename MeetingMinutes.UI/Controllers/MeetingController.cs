@@ -21,9 +21,9 @@ namespace MeetingMinutes.UI.Controllers
         {
             try
             {
-                bool result = await _meetingMasterService.SaveMeetingMasterAsync(meetings);
+                int result = await _meetingMasterService.SaveMeetingMasterAsync(meetings);
                 // Save logic
-                return Json(new { success = result, message = result? "Meeting saved successfully!" :"Meeting saved failed"});
+                return Json(new { success = result>0 ? true: false, id= result, message = result > 0? "Meeting saved successfully!" :"Meeting saved failed"});
             }
             catch (Exception ex)
             {
