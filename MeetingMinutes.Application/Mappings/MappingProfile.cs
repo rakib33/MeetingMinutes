@@ -1,15 +1,17 @@
 ﻿using AutoMapper;
+using MeetingMinutes.Application.DTOs;
+using MeetingMinutes.Domain.Entities;
 namespace DoctorBooking.Application.Mappings
 {
     public class MappingProfile : Profile
     {
         public MappingProfile()
         {
-            //CreateMap<Produ, ClinicDto>().ReverseMap();
-            //CreateMap<Doctor, DoctorDto>().ReverseMap();
-            //CreateMap<Patient, PatientDto>().ReverseMap();
-
-            // Add more mappings here:
+            CreateMap<MeetingMinutesMaster, MeetingDto>().ReverseMap();
+            CreateMap<CorporateCustomer, CorporateCustomerDto>().ReverseMap();
+            CreateMap<IndividualCustomer, IndividualCustomerDto>().ReverseMap();
+            CreateMap<MeetingMinutesDetails, MeetingDetailsDto>().ReverseMap();
+            CreateMap<Product, ProductDto>().ReverseMap();
         }
     }
 }

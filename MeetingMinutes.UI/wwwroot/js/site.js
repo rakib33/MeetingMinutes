@@ -6,7 +6,7 @@
     /* product add to table and save*/
     let products = [];
     let editIndex = -1;
-
+    let customerType = "Individual"; // Default customer type
 
     $('#timeInput').timepicker({
         timeFormat: 'h:mm p', // 12-hour format with AM/PM
@@ -29,13 +29,16 @@
     });
 
     // Check initial selection
-    var initialSelection = $('input[name="options"]:checked').val();
-    updateSelectionDisplay(initialSelection);
+    customerType = $('input[name="options"]:checked').val();
+    updateSelectionDisplay(customerType);
+    getProduct();
+
+
 
     // Handle change event
     $('input[name="options"]').change(function () {
-        var selectedValue = $(this).val();
-        updateSelectionDisplay(selectedValue);
+        customerType = $(this).val();
+        updateSelectionDisplay(customerType);
     });
 
     // Function to update display
@@ -107,14 +110,16 @@
         }
     });
 
-    // Load products dropdown
-    $.get("/Product/GetProducts", function (data) {
-        $.each(data, function (i, product) {
-            $("#productDropdown").append(
-                $("<option>").val(product.id).text(product.name)
-            );
+    function getProduct() {
+        // Load products dropdown
+        $.get("/Product/GetProducts", function (data) {
+            $.each(data, function (i, product) {
+                $("#productDropdown").append(
+                    $("<option>").val(product.id).text(product.name)
+                );
+            });
         });
-    });
+    }
 
     // Product dropdown change event
     $("#productDropdown").change(function () {
@@ -320,7 +325,7 @@
             return;
         }
         return $.ajax({
-            url: "/Product/SaveProducts",
+            url: "/Meeting/SaveMeetingDetails",
             type: "POST",
             contentType: "application/json",
             data: JSON.stringify(products),
@@ -330,6 +335,7 @@
         // Collect form data
         const meetingData = {
             customerId: $("#customername").val(),
+            customerType: customerType,
             meetingDate: $("#datepicker").val(),
             meetingTime: $("#timeInput").val(),
             meetingAgenda: $("#meetingagenda").val(),
@@ -364,6 +370,10 @@
                 // 1. First save meeting
                 const meetingResponse = await SaveMeeting();
                 console.log(meetingResponse);
+                if (meetingResponse.success === false) {
+                    showErrorAlert(meetingResponse.message);
+                    return;
+                }
                 // 2. Only if meeting saved successfully, save product
                 const productResponse = await SaveProduct();
                 console.log(productResponse);

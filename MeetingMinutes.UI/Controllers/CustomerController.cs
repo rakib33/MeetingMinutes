@@ -1,34 +1,29 @@
-﻿using MeetingMinutes.Domain.Entities;
+﻿using MeetingMinutes.Application.Interfaces;
+using MeetingMinutes.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace MeetingMinutes.UI.Controllers
 {
     public class CustomerController : Controller
-    {     
-
-        //Corporate_Customer_Tbl        
-        public JsonResult GetCorporateCustomers()
+    {
+        private readonly ICustomerService _customerService;
+        public CustomerController(ICustomerService customerService)
         {
-            var customers = new List<Customer>
-            {
-                new Customer { Id = 1, Name = "Rubel"},
-                new Customer { Id = 2, Name = "Fahim"},
-                new Customer { Id = 3, Name = "Imtiaz"},
-           
-            };
+            _customerService = customerService;
+        }
+        //Corporate_Customer_Tbl        
+        public async Task<JsonResult> GetCorporateCustomers()
+        {
+            var customers = await _customerService.GetCorporateCustomersAsync();   
             return Json(customers);
         }
 
-        //Individual_Customer_Tbl
-        public JsonResult GetIndividualCustomers()
+        // Change the method signature to async and return Task<JsonResult>
+        public async Task<JsonResult> GetIndividualCustomers()
         {
-            var customers = new List<Customer>
-            {
-                new Customer { Id = 1, Name = "Sojib"},
-                new Customer { Id = 2, Name = "Rayhan"},
-                new Customer { Id = 3, Name = "Manik"},
-
-            };
+            var customers = await _customerService.GetIndividualCustomersAsync();
             return Json(customers);
         }
     }

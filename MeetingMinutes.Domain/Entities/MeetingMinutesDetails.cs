@@ -11,8 +11,7 @@ namespace MeetingMinutes.Domain.Entities
         public int Id { get; set; }
 
         public int ProductId { get; set; }
-        public int MeetingMinutesMasterId { get; set; }
-        public string ProductName { get; set; }
+        public int MeetingMinutesMasterId { get; set; }        
         public decimal Quantity { get; set; }
         
         public decimal Unit { get; set; }

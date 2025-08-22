@@ -8,10 +8,8 @@ using System.Threading.Tasks;
 
 namespace MeetingMinutes.Application.Interfaces
 {
-    public interface ICustomerService
+    public interface IProductService
     {
-        Task<IEnumerable<CorporateCustomer>> GetCorporateCustomersAsync();
-        Task<IEnumerable<IndividualCustomer>> GetIndividualCustomersAsync();
-       
+        Task<IEnumerable<Product>> GetProductsAsync();
     }
 }

@@ -9,6 +9,7 @@ namespace MeetingMinutes.Application.DTOs
     public class MeetingDto
     {
         public int CustomerId { get; set; }
+        public string CustomerType { get; set; }
         public string MeetingDate { get; set; }
         public string MeetingTime { get; set; } // Can be parsed to TimeSpan if needed
         public string MeetingAgenda { get; set; }

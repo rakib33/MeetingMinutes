@@ -1,23 +1,24 @@
-﻿using MeetingMinutes.Domain.Entities;
+﻿using MeetingMinutes.Application.Interfaces;
+using MeetingMinutes.Domain.Entities;
+using MeetingMinutes.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MeetingMinutes.Controllers
 {
     public class ProductController : Controller
     {
+       private readonly IProductService _productService;
+       public  ProductController(IProductService productService)
+        {
+            _productService = productService;
+        }
+
+        [HttpGet]
         // Get products for dropdown
-        public JsonResult GetProducts()
+        public async Task<JsonResult> GetProducts()
         {
-        
-            var products = new List<Product>
-        {
-            new Product { Id = 1, Name = "Laptop", Unit = 10 },
-            new Product { Id = 2, Name = "Mouse", Unit = 20 },
-            new Product { Id = 3, Name = "Keyboard", Unit = 30 },
-            new Product { Id = 4, Name = "Monitor", Unit = 15 },
-            new Product { Id = 5, Name = "Paper", Unit = 5 }
-        };
-            return Json(products);
+            var products = await _productService.GetProductsAsync();
+            return Json(products);            
         }
 
         // Save products

@@ -1,8 +1,9 @@
 ﻿using MeetingMinutes.Domain.Entities;
+using MeetingMinutes.Infrastructure.Configurations;
 using Microsoft.EntityFrameworkCore;
 
 
-namespace DoctorBooking.Infrastructure.Data
+namespace MeetingMinutes.Infrastructure.Data
 {
     public class ApplicationDbContext : DbContext
     {
@@ -19,11 +20,11 @@ namespace DoctorBooking.Infrastructure.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            //modelBuilder.ApplyConfiguration(new ClinicConfiguration());
-            //modelBuilder.ApplyConfiguration(new DoctorConfiguration());
-            //modelBuilder.ApplyConfiguration(new PatientConfiguration());
-            //modelBuilder.ApplyConfiguration(new ScheduleSlotConfiguration());
-            //modelBuilder.ApplyConfiguration(new AppointmentConfiguration());
+            modelBuilder.ApplyConfiguration(new CorporateCustomerConfig());
+            modelBuilder.ApplyConfiguration(new IndividualCustomerConfig());
+            modelBuilder.ApplyConfiguration(new ProductConfig());
+            modelBuilder.ApplyConfiguration(new MeetingMinutesMasterConfig());
+            modelBuilder.ApplyConfiguration(new MeetingMinutesDetailsConfig());
             // Additional model configurations can go here
         }
     }

@@ -14,11 +14,22 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Configurations\IndividualCustomerConfig.cs~RF2c9ff3.TMP" />
+    <None Remove="Configurations\IndividualCustomerConfig.cs~RF30f562.TMP" />
+    <None Remove="Configurations\ProductConfig.cs~RF34f521.TMP" />
     <None Remove="Configurations\ScheduleSlotConfiguration.cs~RF16272337.TMP" />
+    <None Remove="Data\StoredProcedures\MeetingMinutesMasterSave_SP.sql" />
     <None Remove="Interfaces\IPatientRepository.cs~RFbcdaae.TMP" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Data\StoredProcedures\MeetingMinutesMasterSave_SP.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="14.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer.Design" Version="1.1.6" />
@@ -30,12 +41,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MeetingMinutes.Domain\MeetingMinutes.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Configurations\" />
-    <Folder Include="Interfaces\" />
-    <Folder Include="Repositories\" />
   </ItemGroup>
 
 </Project>

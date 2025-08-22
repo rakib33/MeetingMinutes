@@ -13,7 +13,7 @@ namespace MeetingMinutes.Domain.Entities
         public string Name { get; set; }
         public decimal Unit { get; set; }
 
-        [NotMapped]
-        public decimal Quantity { get; set; }
+        //[NotMapped]
+        //public decimal Quantity { get; set; }
     }
 }

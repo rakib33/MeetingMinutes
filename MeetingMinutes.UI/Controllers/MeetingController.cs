@@ -1,4 +1,5 @@
 ﻿using MeetingMinutes.Application.DTOs;
+using MeetingMinutes.Application.Interfaces;
 using MeetingMinutes.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,14 +7,23 @@ namespace MeetingMinutes.UI.Controllers
 {
     public class MeetingController : Controller
     {
+        private readonly IMeetingMasterService _meetingMasterService;
+        private readonly IMeetingDetailsService _meetingDetailsService;
+        public MeetingController(IMeetingMasterService meetingService, IMeetingDetailsService meetingDetailsService)
+        {
+            _meetingMasterService = meetingService;
+            _meetingDetailsService = meetingDetailsService;            
+        }
+
         // Save products
         [HttpPost]
-        public JsonResult SaveMeeting([FromBody] MeetingDto meetings)
+        public async Task<JsonResult> SaveMeeting([FromBody] MeetingDto meetings)
         {
             try
             {
+                bool result = await _meetingMasterService.SaveMeetingMasterAsync(meetings);
                 // Save logic
-                return Json(new { success = true, message = "Meeting saved successfully!" });
+                return Json(new { success = result, message = result? "Meeting saved successfully!" :"Meeting saved failed"});
             }
             catch (Exception ex)
             {
@@ -21,6 +31,21 @@ namespace MeetingMinutes.UI.Controllers
             }
         }
 
+        [HttpPost]
+        public async Task<JsonResult> SaveMeetingDetails([FromBody]List<MeetingDetailsDto> meetings)
+        {
+            try
+            {
+                bool result = await _meetingDetailsService.SaveMeetingDetailsAsync(meetings);
+                // Save logic
+                return Json(new { success = result, message = result ? "Meeting details saved successfully!" : "Meeting details saved failed" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
+        }
+               
         //[HttpPost]
         //public JsonResult SaveMeeting([FromBody] MeetingViewModel model)
         //{
